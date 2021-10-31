@@ -69,7 +69,7 @@ class State(object):
         return reward
 
 def initialize_states():
-    # This is the set of states, all initialised with default values
+    # This is the set of states, all initialised with default values, chang range values for different grid sizes
     states = [[State(j, i) for i in range(9)] for j in range(9)]
 
     # Now I make the walls black
@@ -86,6 +86,8 @@ def initialize_states():
       states[i][6].is_wall = True
       walls.append(str(states[i][6]))
 
+    # setting reward and punishment
+
     states[6][5].is_red = True
     states[8][8].is_green = True
     
@@ -95,7 +97,7 @@ def initialize_states():
         for state in row:
             state.get_neighbours(states, walls)
     
-    for _ in range(500):
+    for _ in range(300):
         for row in states:
             for state in row:
                 updated_value = 0
@@ -122,7 +124,7 @@ def reward(s_1, s_2):
   else:
     return -1
 
-""" the transition function takes state and action and results in a new state, depending on their attributes. The method takes the whole state-space as an argument (since the transition depends on the attributes of the states in the state-space), which could for example be the "states" matrix from above, the current state s from the state-space (with its attributes), and the current action, which takes the form of a "difference vector. For example, dx = 0, dy = 1 means: Move to the south. dx = -1, dy = 0 means: Move to the left"""
+# the transition function takes state and action and results in a new state, depending on their attributes. The method takes the whole state-space as an argument (since the transition depends on the attributes of the states in the state-space), which could for example be the "states" matrix from above, the current state s from the state-space (with its attributes), and the current action, which takes the form of a "difference vector. For example, dx = 0, dy = 1 means: Move to the south. dx = -1, dy = 0 means: Move to the left"""
 def transition(stsp, s, di, dj):
   if (s.is_red or s.is_green):
     return s
@@ -166,7 +168,7 @@ def q_learning(state, next_state, action, next_state_action):
 
 def run_code(use_q_learning = False, show_state_values = False):
     states = initialize_states()
-    epsilon = 0.5
+    epsilon = 0.9
     decay = 0.999
     min_epsilon = 0.000000001
 
